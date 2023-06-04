@@ -32,9 +32,9 @@ visudo
 
 vi /etc/ssh/sshd_config
 {
-  #
-  #
-  #
+  # permit root login --------------> remove # from here
+  # password authentication yes -----------> remove # from here
+  # password authentication no
 }
 
 service sshd restart
