@@ -1,0 +1,102 @@
+sudo su 
+
+yum install docker -y 
+
+service docker start
+
+service docker status
+
+docker search <s/w name>
+
+docker pull <s/w name>
+
+docker images 
+
+docker start <contname>
+
+docket attach <contname>
+
+docker stop <contname>
+
+docker rm <contname>
+
+docker run -it --name <contname> ubuntu /bin/bash
+
+docker exec -it <contname> /bin/bash
+
+docker ps 
+
+docker ps -a
+
+docker build -t <imagename> .
+
+docker commit -m <containername> <newimagename>
+
+docker run -it --name <contname> -v /volumes(dirname) ubuntu /bin/bash
+
+docker run -it --name <newcontname> =privileged=true --volumes-from <oldcontname> ubuntu /bin/bash
+
+docker run -it --name <contname> -v /home/ec2-user:/volumes(newdirname) ubuntu /bin/bash
+
+docker login
+
+docker tag <oldimagename> dockerid/newimagenameof your choice
+
+docker push harishkumarkl91/newimagename(image name of your choice(tokyoimages))
+
+docker pull harishkumarkl91/newimagename(tokyoimages)
+
+docker run -td --name <contname> -p 80:80 ubuntu
+
+docker port <contname>
+
+docker run -td --name <contname> -p 8080:8080 jenkins
+
+docker port <cont name>
+
+____________________________________________________________________________________________________________
+
+DOCKER FILE
+
+vi Dockerfile
+
+{
+FROM ubuntu
+WORKDIR /tmp
+RUN echo "hello" > /tmp/testfile
+COPY testfile /tmp
+ADD test.tar.gz /tmp
+VOLUME ['\myvolume']
+
+}
+
+docker build -t <newimagename(trial)> .
+docker images
+docker run -it <contname> <trial> /bin/bash
+____________________________________________________________________________________________________________________
+
+UBUNTU COMMANDS TO RUN ON DOCKER
+
+apt-get update -y
+
+apt-get install apache2 -y
+
+systemctl start docker
+
+systemctl enable docker
+
+cd /var/www/html/
+ 
+echo "this is first trial">index.html
+
+service apache2 start
+
+_________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+

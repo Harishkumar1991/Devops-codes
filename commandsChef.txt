@@ -1,0 +1,86 @@
+manage chef.io
+
+ALL COMMANDS HAVE TO BE EXECUTED INSIDE A COOKBOOK (mkdir cookbooks)
+
+chef generate cookbook rawcookbook
+
+chef generate recipe rawrecipe1
+
+vi cookbooks/rawcookbook/recipes/rawrecipe1.rb
+
+chef exec ruby -c cookbooks/rawcookbooks/recipes/rawrecipe1.rb
+
+chef-client -zr "recipe[rawcookbook::rawrecipe1]"------> single cookbook single recipes
+
+chef-client -zr "recipe[rawcookbook::default]"------> single cookbook multiple recipes
+
+chef-client -zr "recipe[rawcookbook::default],recipe[isicookbook::default]"-------> multiple cookbook and multiple recipes
+
+ {
+   vi cookbooks/rawcookbook/recipes/default.rb
+    open the above file and then write the below code
+   include_recipe "rawcookbook::rawrecipe1"
+   include_recipe "rawcookbook::rawrecipe2"
+ }
+
+manage chef.io
+
+download starter kit extract chef-repo after downloading from internet and with help of winscp place it into linux system from your laptop, also make sure to place .pem file inside chef-repo
+
+ALL COMMANDS TO RUN INSIDE (Chef-repo)
+
+knife ssl check----------> to communicate with chefserver and establish communication with server
+
+knife cookbook upload rawcookbook
+
+knife node run_list set node1 "recipe[rawcookbook::rawrecipe1]"------> single cookbook single recipes on multiple nodes
+
+knife node run_list set node1 "recipe[rawcookbook::default]"-----> single cookbook multiple recipes on multiple nodes
+
+knife node run_list set node1 ""recipe[rawcookbook::default],recipe[isicookbook::default]"-------> multiple cookbook and multiple recipes on multiple node
+
+knife client list
+knife delete client <client name>
+knife cookbook list
+knife delete cookbook <cookbookname>
+knife node list
+knife delete node <node name (ex node1)>
+knife role list
+knife delete role <role name>
+
+FUNCTION OF ROLES IN CHEF
+
+vi devops.rb
+  {
+     name "devops"
+
+     description "webserver"
+  
+     run_list "recipe[rawcookbook::rawrecipe1]"-----> single cookbook single recipe
+
+     run_list "recipe[rawcookbook::default]" ------------>single cookbook multiple recipes
+  
+     run_list "recipe[rawcookbook::default]","recipe[isicookbook::default]"  ------------>multiple cookbook and multiple recipes on multiple node
+
+  }
+
+Knife node run_list set node1 "roles[devops]"
+knife role from file roles/devops.rb
+knife cookbook upload rawcookbook
+
+____________________________________________________________________________________________________________________________________________
+
+NOW CONFIGIRINING NODES
+
+#!/bin/bash
+sudo su
+yum update -y
+install libxcrypt-compat
+
+chef-client or write the below code in mentioned directory to all chef-client automatically
+
+vi /etc/crontab
+* * * * * root chef-client
+
+
+

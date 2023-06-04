@@ -1,0 +1,163 @@
+amazon-linux-extras install ansible2 -y 
+
+yum remove ansible -y
+
+amazon-linux-extras install epel 
+
+yum-config-manager --enable epel
+
+yum --enablerepo epel install ansible -y 
+
+vi /etc/ansible/hosts
+ {
+   [demo]
+   private ip of node1
+   private ip of node2
+ }
+
+vi /etc/ansible/ansible.cfg
+  {
+    # inventory ---remove # in the beggining
+    # sudo_user =root ----------> remove # in the beggining
+  }
+
+useradd ansible
+passwd ansible 
+change your password (technical)
+
+visudo
+{
+   ansible ALL=(ALL)  NOPASSWD: ALL
+}
+
+vi /etc/ssh/sshd_config
+{
+  #
+  #
+  #
+}
+
+service sshd restart
+
+su - ansible 
+[......ansible] ssh-keygen ---------->>press enter 3 time to generate a ssh key
+cd .ssh
+[.....ssh] ssh-copy-id <username>@PrivateIpOfNode(174.23.76.10)
+           ssh-copy-id ansible@174.23.76.10
+
+[......ansible] ssh <privateIpOfNode>
+now you are into another server
+
+________________________________________________________________________________________________________________________________________________
+
+ansible demo --list-hosts
+
+ansible all --list-hosts
+
+ansible demo[-1] --list-hosts
+
+ansible demo[0:1] --list-hosts
+
+ansible demo -a "touch file1"
+
+ansible demo -a "sudo yum install httpd -y"
+
+ansible demo -a "sudo service httpd start"
+
+ansible demo -a "sudo yum remove httpd -y"
+
+ansible demo -ba "install httpd -y"
+
+ansible demo -ba "remove httpd -y"
+
+ansible demo -b -m yum -a "pkg=httpd state=present"
+
+ansible demo -b -m service -a "name=httpd state=started"
+
+ansible demo -b -m user -a "name=harish"
+
+vi playbook.yml
+
+{
+  --- # this is my first playbook
+  - hosts: demo
+    user: ansible
+    become: yes
+    connection: ssh
+    gather_facts: yes
+    tasks: 
+      
+       - name: installing httpd on server
+         action: yum pkg=httpd state=present
+       - name: starting httpd server
+         action: service name=httpd state=strated
+
+    roles:
+       - webserver
+}
+
+ansible-playbook playbook.yml
+
+_________________________________________________________________________________________________________________________________________
+
+ANSIBLE ROLES
+
+vi master.yml
+    {
+      ---# this is my first role playbook
+         - hosts: demo
+           user: ansible
+           connection: ssh
+           become: yes
+           gather_facts: yes
+           roles:         
+                 - webserver
+    }
+
+mkdir -p playbook/roles/webserver/tasks
+
+vi playbook/roles/webserver/tasks/main.yml
+
+   {
+         - name: to install httpd on servers
+           action: yum pkg=httpd state=present
+   }
+
+ansible-playbook master.yml  ---------->  this command will execute all the playbook written in the playbook
+
+___________________________________________________________________________________________________________________________________________________________________
+
+playbook
+master.yml
+roles--------------------1 tasks
+                         2 handlers
+                         3 vars
+                         
+____________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
